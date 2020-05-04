@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
 
@@ -8,23 +9,72 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/about",
     name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    meta: {
+      auth: true,
+    },
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+      // @ts-ignore
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/departamentos",
+    name: "Departamentos",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Departamentos/Departamentos.vue"
+      ),
+  },
+  {
+    path: "/departamentos/add",
+    name: "AddDepartamento",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Departamentos/Adddepartamento"
+      ),
+  },
+  {
+    path: "/me",
+    name: "Me",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Me.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("user");
+  // si buscas el meta auth y no se encuentra
+  if (to.matched.some((record) => record.meta.auth) && !loggedIn) {
+    next("/login");
+    return;
+  }
+  next();
 });
 
 export default router;
