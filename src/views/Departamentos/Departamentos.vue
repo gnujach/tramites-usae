@@ -1,54 +1,127 @@
 /* eslint-disable prettier/prettier */
 <template>
-  <div class="mb-2">
-    <div class="w-full">
-      <spinner v-if="loading"></spinner>
-      <div v-else>
-        <div v-if="departamentos.data.length === 0">
-          <p>No se encuentran departamentos activos</p>
-        </div>
-        <div v-else>
-          <div
+  <div class="w-full">
+    <h1 class="m-8 font-bold text-3xl">Departamentos</h1>
+    <div class="mb-6 flex justify-between items-center">
+      <search-filter v-model="form.search" class="ml-4 w-full max-w-md mr-4" @reset="reset">
+        <select v-model="form.rol" class="mt-1 w-full form-select">
+          <option :value="null" />
+          <option value="todos">Todos</option>
+        </select>
+      </search-filter>
+      <router-link class="btn-indigo" to="/departamentos/add">
+        <span>Agregar -</span>
+        <span class="hidden md:inline">&nbsp;Departamento</span>
+      </router-link>
+    </div>
+    <spinner v-if="loading"></spinner>
+    <div v-else>
+      <div class="bg-white rounded shadow overflow-x-auto">
+        <table class="w-full whitespace-no-wrap">
+          <tr class="text-left font-bold">
+            <th class="px-6 pt-6 pb-4">Nombre</th>
+            <th class="px-6 pt-6 pb-4">Organización</th>
+            <th class="px-6 pt-6 pb-4">Actualización</th>
+            <th class="px-6 pt-6 pb-4" colspan="2">Creación</th>
+          </tr>
+          <tr
             v-for="departamento in departamentos.data"
             :key="departamento.data.id"
+            class="hover:bg-gray-100 focus-within:bg-gray-100"
           >
-            <div
-              class="flex items-baseline border-b border-gray-400 justify-between hover:bg-gray-200"
-            >
+            <td class="border-t">
               <router-link to="/login" class="flex items-center p-4">
-                <p class="pl-4 font-bold uppercase">
-                  {{ departamento.data.attributes.nombre_departamento }}
-                </p>
+                <p
+                  class="pl-4 font-bold uppercase"
+                >{{ departamento.data.attributes.nombre_departamento }}</p>
               </router-link>
-            </div>
-          </div>
-        </div>
+            </td>
+            <td class="border-t">
+              <router-link to="/login" class="flex items-center p-4">
+                <p
+                  class="pl-4 font-bold uppercase"
+                >{{ departamento.data.attributes.nombre_departamento }}</p>
+              </router-link>
+            </td>
+            <td class="border-t">
+              <router-link to="/login" class="flex items-center p-4">
+                <p
+                  class="pl-4 font-bold uppercase"
+                >{{ departamento.data.attributes.nombre_departamento }}</p>
+              </router-link>
+            </td>
+            <td class="border-t">
+              <router-link to="/login" class="flex items-center p-4">
+                <p
+                  class="pl-4 font-bold uppercase"
+                >{{ departamento.data.attributes.nombre_departamento }}</p>
+              </router-link>
+            </td>
+            <td class="border-t w-px">
+              <router-link to="/login" class="flex items-center p-4">
+                <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
+              </router-link>
+            </td>
+          </tr>
+          <tr v-if="departamentos.data.length === 0">
+            <td class="border-t px-6 py-4" colspan="4">No se encontraron departamentos.</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
 </template>
 <script>
 import Spinner from "../../components/Spinner";
+import Icon from "@/Shared/Icon";
+import SearchFilter from "@/Shared/SearchFilter";
+import mapValues from "lodash/mapValues";
+import pickBy from "lodash/pickBy";
+import throttle from "lodash/throttle";
 import axios from "axios";
+
 export default {
   components: {
     Spinner,
+    Icon,
+    SearchFilter
   },
   data() {
     return {
       title: "Departamentos",
       loading: true,
+      query: null,
       departamentos: [],
+      contacts: Object,
+      filters: Object,
+      form: {
+        search: "",
+        rol: ""
+      }
     };
+  },
+  watch: {
+    form: {
+      handler: throttle(function() {
+        let query = pickBy(this.form);
+        Object.keys(query).length ? query : { remember: "forget" };
+      }, 150),
+      deep: true
+    }
   },
   created() {
     axios
       .get("/departamentos")
-      .then((res) => {
+      .then(res => {
         this.departamentos = res.data;
         this.loading = false;
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   },
+  methods: {
+    reset() {
+      this.form = mapValues(this.form, () => null);
+    }
+  }
 };
 </script>

@@ -4,10 +4,12 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import "./assets/tailwind.css";
+import PortalVue from "portal-vue";
 import VueTailwind from "vue-tailwind";
 
 Vue.config.productionTip = false;
 Vue.use(VueTailwind);
+Vue.use(PortalVue);
 new Vue({
   router,
   store,
