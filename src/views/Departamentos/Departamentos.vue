@@ -77,7 +77,8 @@ import Icon from "@/Shared/Icon";
 import SearchFilter from "@/Shared/SearchFilter";
 import mapValues from "lodash/mapValues";
 import pickBy from "lodash/pickBy";
-import throttle from "lodash/throttle";
+// import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import axios from "axios";
 
 export default {
@@ -102,10 +103,13 @@ export default {
   },
   watch: {
     form: {
-      handler: throttle(function() {
+      handler: debounce(function() {
         let query = pickBy(this.form);
-        Object.keys(query).length ? query : { remember: "forget" };
-      }, 150),
+        // console.log(query);
+        this.findFilter(
+          Object.keys(query).length ? query : { remember: "forget" }
+        );
+      }, 500),
       deep: true
     }
   },
@@ -121,6 +125,19 @@ export default {
   methods: {
     reset() {
       this.form = mapValues(this.form, () => null);
+    },
+    findFilter(query) {
+      console.log(query);
+      let _this = this;
+      axios
+        // .get(`/departamentos/?q=${query.search}`)
+        .get("/departamentos/", {
+          params: query
+        })
+        .then(res => {
+          _this.departamentos = res.data;
+        })
+        .catch(err => console.log(err));
     }
   }
 };

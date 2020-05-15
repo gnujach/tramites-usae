@@ -1,10 +1,6 @@
 <template>
   <div>
-    <form
-      @submit.prevent="submitForm"
-      class="flex flex-wrap -mb-4"
-      v-if="!saved"
-    >
+    <form @submit.prevent="submitForm" class="flex flex-wrap -mb-4" v-if="!saved">
       <div class="flex w-full">
         <div class="w-1/2 mx-2">
           <t-input-group label="Nombre" feedback="Solo letras">
@@ -47,8 +43,8 @@ export default {
       departamento: {},
       form: {
         nombre_departamento: "",
-        activo: true,
-      },
+        activo: true
+      }
     };
   },
   methods: {
@@ -56,18 +52,18 @@ export default {
       let _this = this;
       axios
         .post("/departamentos/", _this.form)
-        .then((res) => {
+        .then(res => {
           _this.departamento - res.data;
           _this.saved = true;
           _this.loading = false;
         })
-        .catch((err) => {
+        .catch(err => {
           _this.errors = err.response.data.errors;
           _this.loading = false;
         });
-    },
+    }
   },
-  components: {},
+  components: {}
 };
 </script>
 
