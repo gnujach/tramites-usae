@@ -51,7 +51,7 @@ export default {
     submitForm() {
       let _this = this;
       axios
-        .post("/departamentos/", _this.form)
+        .post("/departamentos", _this.form)
         .then(res => {
           _this.departamento - res.data;
           _this.saved = true;

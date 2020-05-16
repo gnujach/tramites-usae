@@ -131,7 +131,7 @@ export default {
       let _this = this;
       axios
         // .get(`/departamentos/?q=${query.search}`)
-        .get("/departamentos/", {
+        .get("/departamentos", {
           params: query
         })
         .then(res => {
