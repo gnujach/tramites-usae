@@ -9,6 +9,9 @@ export default {
   name: "HelloWorld",
   props: {
     msg: String
+  },
+  created() {
+    console.log("Token: ", process.env.VUE_APP_API_TOKEN);
   }
 };
 </script>
