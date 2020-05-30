@@ -42,7 +42,20 @@ const routes = [
     component: () =>
       // @ts-ignore
       import(
-        /* webpackChunkName: "about" */ "../views/Departamentos/Adddepartamento"
+        /* webpackChunkName: "about" */ "../views/Departamentos/AddDepartamento"
+      ),
+  },
+  {
+    path: "/departamentos/:id/edit",
+    name: "EditDepartamento",
+    props: true,
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Departamentos/EditDepartamento"
       ),
   },
   {
@@ -58,6 +71,18 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/solicitudes/add",
+    name: "SolicitudFeedback",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Solicitudes/SolicitudFeedback"
+      ),
   },
 ];
 

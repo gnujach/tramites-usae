@@ -21,8 +21,8 @@
           <tr class="text-left font-bold">
             <th class="px-6 pt-6 pb-4">Nombre</th>
             <th class="px-6 pt-6 pb-4">Organización</th>
-            <th class="px-6 pt-6 pb-4">Actualización</th>
-            <th class="px-6 pt-6 pb-4" colspan="2">Creación</th>
+            <th class="px-6 pt-6 pb-4">Creación</th>
+            <th class="px-6 pt-6 pb-4" colspan="2">Actualización</th>
           </tr>
           <tr
             v-for="departamento in departamentos.data"
@@ -30,35 +30,29 @@
             class="hover:bg-gray-100 focus-within:bg-gray-100"
           >
             <td class="border-t">
-              <router-link to="/login" class="flex items-center p-4">
-                <p
-                  class="pl-4 font-bold uppercase"
-                >{{ departamento.data.attributes.nombre_departamento }}</p>
-              </router-link>
+              <p
+                class="pl-4 font-bold uppercase"
+              >{{ departamento.data.attributes.nombre_departamento }}</p>
             </td>
             <td class="border-t">
-              <router-link to="/login" class="flex items-center p-4">
-                <p
-                  class="pl-4 font-bold uppercase"
-                >{{ departamento.data.attributes.nombre_departamento }}</p>
-              </router-link>
+              <p class="pl-4 font-bold uppercase">SEG</p>
             </td>
             <td class="border-t">
-              <router-link to="/login" class="flex items-center p-4">
-                <p
-                  class="pl-4 font-bold uppercase"
-                >{{ departamento.data.attributes.nombre_departamento }}</p>
-              </router-link>
+              <p class="pl-4 font-bold italic">{{ departamento.data.attributes.created_at }}</p>
             </td>
             <td class="border-t">
-              <router-link to="/login" class="flex items-center p-4">
-                <p
-                  class="pl-4 font-bold uppercase"
-                >{{ departamento.data.attributes.nombre_departamento }}</p>
-              </router-link>
+              <p class="pl-4 font-bold italic">{{ departamento.data.attributes.updated_at }}</p>
             </td>
+
             <td class="border-t w-px">
-              <router-link to="/login" class="flex items-center p-4">
+              <router-link
+                :to="
+                  '/departamentos/' +
+                    departamento.data.departamento_id +
+                    '/edit'
+                "
+                class="flex items-center p-4"
+              >
                 <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
               </router-link>
             </td>
@@ -68,11 +62,15 @@
           </tr>
         </table>
       </div>
+      <div class="w-full mt-4">
+        <Pagination :pagination="pagination" @paginate="loadDepartamentos" :offset="4" />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Spinner from "../../components/Spinner";
+import Pagination from "../../components/Pagination";
 import Icon from "@/Shared/Icon";
 import SearchFilter from "@/Shared/SearchFilter";
 import mapValues from "lodash/mapValues";
@@ -85,11 +83,14 @@ export default {
   components: {
     Spinner,
     Icon,
-    SearchFilter
+    SearchFilter,
+    Pagination
   },
   data() {
     return {
       title: "Departamentos",
+      pagination: {},
+      url: "",
       loading: true,
       query: null,
       departamentos: [],
@@ -114,15 +115,25 @@ export default {
     }
   },
   created() {
-    axios
-      .get("/departamentos")
-      .then(res => {
-        this.departamentos = res.data;
-        this.loading = false;
-      })
-      .catch(err => console.log(err));
+    this.loadDepartamentos();
   },
   methods: {
+    loadDepartamentos() {
+      let _this = this;
+      _this.loading = true;
+      let current_page = _this.pagination.current_page;
+      let pageNum = current_page ? current_page : 1;
+      axios
+        .get(`/departamentos?page=${pageNum}`)
+        .then(res => {
+          this.departamentos = res.data;
+          this.loading = false;
+          _this.consultas = res.data.consultas;
+          _this.pagination = res.data.pagination;
+          _this.url = res.data.next_page_url;
+        })
+        .catch(err => console.log(err));
+    },
     reset() {
       this.form = mapValues(this.form, () => null);
     },
