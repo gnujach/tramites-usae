@@ -56,7 +56,7 @@ export default {
       axios
         .post("/departamentos", _this.form)
         .then(res => {
-          _this.departamento - res.data;
+          _this.departamento = res.data;
           _this.saved = true;
           _this.loading = false;
         })
