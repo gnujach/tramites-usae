@@ -34,11 +34,7 @@
         </svg>
       </router-link>
       <router-link to="/login" v-if="isLogged" class="px-6 h-full flex items-center">
-        <img
-          src="https://cdn.pixabay.com/photo/2014/07/09/10/04/man-388104_960_720.jpg"
-          class="w-8 h-8 object-cover rounded-full"
-          alt="profile photo"
-        />
+        <ShowPictureProfile />
       </router-link>
     </div>
     <div class="w-1/3 flex justify-end sm:w-full">
@@ -53,10 +49,16 @@
         <div slot="dropdown" class="mt-2 py-2 shadow-xl bg-white rounded text-sm">
           <router-link
             class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
-            to="/"
-          >My Profile</router-link>
-          <router-link class="block px-6 py-2 hover:bg-indigo-500 hover:text-white" to="/"></router-link>
-          <router-link class="block px-6 py-2 hover:bg-indigo-500 hover:text-white" to="/">Logout</router-link>
+            to="/user/profile"
+          >Mi Perfil</router-link>
+          <router-link
+            class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
+            to="/user/profile"
+          ></router-link>
+          <button
+            class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
+            @click="logout"
+          >Logout</button>
         </div>
       </dropdown>
     </div>
@@ -66,6 +68,7 @@
 import { mapGetters } from "vuex";
 import Icon from "@/Shared/Icon";
 import Dropdown from "@/Shared/Dropdown";
+import ShowPictureProfile from "./ShowPictureProfile";
 
 export default {
   name: "Nav",
@@ -74,11 +77,13 @@ export default {
   },
   components: {
     Icon,
-    Dropdown
+    Dropdown,
+    ShowPictureProfile
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout", { id: this.user.id });
+      // console.log(this.user.data.user_id);
+      this.$store.dispatch("logout", { id: this.user.data.user_id });
     }
   }
 };

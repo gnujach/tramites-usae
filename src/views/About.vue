@@ -1,32 +1,25 @@
 <template>
   <div class="pt-8">
     <h1>Ok, This is an about page</h1>
-    <Me />
     <button
       v-if="isLogged"
       type="button"
       @click="logout()"
       class="rounded py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
-    >
-      Logout
-    </button>
+    >Logout</button>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import Me from "../components/Me";
 export default {
   name: "About",
-  components: {
-    Me,
-  },
   methods: {
     logout() {
       this.$store.dispatch("logout", { id: this.user.id });
-    },
+    }
   },
   computed: {
-    ...mapGetters(["isLogged", "user"]),
-  },
+    ...mapGetters(["isLogged", "user"])
+  }
 };
 </script>

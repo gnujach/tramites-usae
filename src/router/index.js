@@ -84,6 +84,26 @@ const routes = [
         /* webpackChunkName: "about" */ "../views/Solicitudes/SolicitudFeedback"
       ),
   },
+  {
+    path: "/uploadimage",
+    name: "uploadimage",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(/* webpackChunkName: "about" */ "../components/UploadImage"),
+  },
+  {
+    path: "/user/profile",
+    name: "profile",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignorP
+      import(/* webpackChunkName: "about" */ "../views/user/Profile"),
+  },
 ];
 
 const router = new VueRouter({

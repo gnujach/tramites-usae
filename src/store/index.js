@@ -9,6 +9,7 @@ axios.defaults.baseURL = process.env.VUE_APP_API_SERVER;
 export default new Vuex.Store({
   state: {
     user: null,
+    userImageProfile: null,
   },
   actions: {
     login({ commit }, credentials) {
@@ -22,8 +23,14 @@ export default new Vuex.Store({
         commit("clearUserData");
       });
     },
+    loadImageProfile({ commit }, payload) {
+      commit("setImageProfile", payload);
+    },
   },
   mutations: {
+    setImageProfile(state, data) {
+      state.userImageProfile = data.image;
+    },
     setUserData(state, userData) {
       state.user = userData;
       localStorage.setItem("user", JSON.stringify(userData));
@@ -38,6 +45,8 @@ export default new Vuex.Store({
   getters: {
     isLogged: (state) => !!state.user,
     user: (state) => state.user.user,
+    imageProfile: (state) =>
+      state.userImageProfile || state.user.user.data.attributes.profile_image,
   },
   modules: {},
 });

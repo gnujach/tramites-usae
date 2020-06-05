@@ -13,14 +13,14 @@ export default {
   name: "Me",
   data() {
     return {
-      me: null,
+      me: null
     };
   },
   created() {
-    axios.get("/user").then((res) => {
+    axios.get("/user").then(res => {
       this.me = res.data;
     });
-  },
+  }
 };
 </script>
 
