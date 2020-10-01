@@ -1,9 +1,13 @@
 <template>
   <div>
     <div class="w-full flex flex-1">
-      <h1 class="m-8 font-bold text-3xl">Nuevo Departamento</h1>
+      <h1 class="m-8 font-bold text-3xl">Nuevo Trámite</h1>
     </div>
-    <form @submit.prevent="submitForm" class="flex flex-wrap -mb-4" v-if="!saved">
+    <form
+      @submit.prevent="submitForm"
+      class="flex flex-wrap -mb-4"
+      v-if="!saved"
+    >
       <div class="flex w-full ml-8 mt-2">
         <div class="w-1/2 mx-2">
           <t-input-group label="Nombre" feedback="Solo letras">
