@@ -52,7 +52,7 @@
               </div>
             </router-link>
             <a
-              href="http://127.0.0.1:8000/login/azure"
+              href="https://api.open-link.net/login/azure"
               class="rounded w-full py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
             >
               Microsoft
