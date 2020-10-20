@@ -17,6 +17,9 @@ export default new Vuex.Store({
         commit("setUserData", data);
       });
     },
+    loginwithms({ commit }, userData) {
+      commit("setUserDataMs", userData);
+    },
 
     logout({ commit }, credentials) {
       return axios.post("/logout", credentials).then(() => {
@@ -32,6 +35,13 @@ export default new Vuex.Store({
       state.userImageProfile = data.image;
     },
     setUserData(state, userData) {
+      // console.log(userData);
+      state.user = userData;
+      localStorage.setItem("user", JSON.stringify(userData));
+      axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`;
+    },
+    setUserDataMs(state, userData) {
+      console.log("userData Muttation: ", userData);
       state.user = userData;
       localStorage.setItem("user", JSON.stringify(userData));
       axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`;

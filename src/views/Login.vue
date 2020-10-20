@@ -2,7 +2,7 @@
   <div
     class="mx-auto h-full flex flex-1 justify-center items-center align-middle"
   >
-    <div class="w-96 bg-white rounded-lg overflow-hidden shadow-xl p-4">
+    <div class="w-1/5 bg-white rounded-lg overflow-hidden shadow-xl p-4">
       <logo class="block mx-auto max-w-xs fill-white" />
       <h2 class="text-black text-3xl pt-8 text-center">Bienvenido</h2>
       <h2 class="text-blue-300">Ingresa sus credenciales</h2>
@@ -36,19 +36,27 @@
               class="pt-8 w-full rounded p-3 bg-blue-800 text-gray-100 outline-none focus:bg-blue-700"
             />
           </div>
-          <div class="pt-8">
+          <div class="pt-8 mb-2">
             <button
               type="submit"
               class="rounded w-full py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
             >
               Login
             </button>
-            <button
-              type="submit"
+            <router-link
+              class="flex items-center group py-3"
+              to="/solicitudes/add"
+            >
+              <div class="text-indigo-400 group-hover:text-white">
+                Solicitar cuenta
+              </div>
+            </router-link>
+            <a
+              href="http://127.0.0.1:8000/login/azure"
               class="rounded w-full py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
             >
-              Solicitar cuenta
-            </button>
+              Microsoft
+            </a>
           </div>
         </div>
       </form>
@@ -85,7 +93,8 @@ export default {
   },
   created() {
     const userInfo = localStorage.getItem("user");
-    console.log(userInfo);
+    // let tokenuser = this.$route.query.user;
+    // console.log(tokenuser);
     if (userInfo) {
       const userData = JSON.parse(userInfo);
       this.$store.commit("setUserData", userData);
