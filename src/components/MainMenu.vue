@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-4">
-      <router-link class="flex items-center group py-3" to="/departamentos">
+      <router-link class="flex items-center group py-3" to="/tramites">
         <icon
           name="office"
           class="w-4 h-4 mr-2 fill-indigo-400 group-hover:fill-white"

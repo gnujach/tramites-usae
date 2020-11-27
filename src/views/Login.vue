@@ -2,7 +2,7 @@
   <div
     class="mx-auto h-full flex flex-1 justify-center items-center align-middle"
   >
-    <div class="w-1/5 bg-white rounded-lg overflow-hidden shadow-xl p-4">
+    <div class="w-1/3 bg-white rounded-lg overflow-hidden shadow-xl p-4">
       <logo class="block mx-auto max-w-xs fill-white" />
       <h2 class="text-black text-3xl pt-8 text-center">Bienvenido</h2>
       <h2 class="text-blue-300">Ingresa sus credenciales</h2>
@@ -39,7 +39,7 @@
           <div class="pt-8 mb-2">
             <button
               type="submit"
-              class="rounded w-full py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
+              class="rounded w-32 py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
             >
               Login
             </button>
@@ -52,10 +52,10 @@
               </div>
             </router-link>
             <a
-              href="https://api.open-link.net/login/azure"
+              href=http://localhost:8000/login/azure
               class="rounded w-full py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
             >
-              Microsoft
+              Correo Institucional
             </a>
           </div>
         </div>

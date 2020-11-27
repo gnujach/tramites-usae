@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
 <template>
-  <div class="w-full">
-    <h1 class="m-8 font-bold text-3xl">Departamentos</h1>
+  <div class="bg-gray-100 m-4 border rounded">
+    <h1 class="m-8 font-bold text-3xl">Requisitos</h1>
     <div class="mb-6 flex justify-between items-center">
       <search-filter
         v-model="form.search"
@@ -13,9 +12,9 @@
           <option value="todos">Todos</option>
         </select>
       </search-filter>
-      <router-link class="btn-indigo" to="/departamentos/add">
+      <router-link class="btn-indigo mr-2" to="/requisitos/add">
         <span>Agregar -</span>
-        <span class="hidden md:inline">&nbsp;Solicitud</span>
+        <span class="hidden md:inline">&nbsp;Requisito</span>
       </router-link>
     </div>
     <spinner v-if="loading"></spinner>
@@ -24,93 +23,65 @@
         <table class="w-full whitespace-no-wrap">
           <tr class="text-left font-bold">
             <th class="px-6 pt-6 pb-4">Nombre</th>
-            <th class="px-6 pt-6 pb-4">Organización</th>
-            <th class="px-6 pt-6 pb-4">Creación</th>
-            <th class="px-6 pt-6 pb-4" colspan="2">Actualización</th>
+            <th class="px-6 pt-6 pb-4">Tipo</th>
+            <th class="px-6 pt-6 pb-4">Creado</th>
+            <th class="px-6 pt-6 pb-4">Actualizado</th>
           </tr>
           <tr
-            v-for="departamento in departamentos.data"
-            :key="departamento.data.id"
+            v-for="requisito in requisitos.data"
+            :key="requisito.data.id"
             class="hover:bg-gray-100 focus-within:bg-gray-100"
           >
             <td class="border-t">
               <p class="pl-4 font-bold uppercase">
-                {{ departamento.data.attributes.nombre_departamento }}
+                {{ requisito.data.attributes.nombre }}
               </p>
             </td>
             <td class="border-t">
-              <p class="pl-4 font-bold uppercase">SEG</p>
-            </td>
-            <td class="border-t">
-              <p class="pl-4 font-bold italic">
-                {{ departamento.data.attributes.created_at }}
+              <p class="pl-4 font-bold uppercase">
+                {{ requisito.data.attributes.tipo }}
               </p>
             </td>
             <td class="border-t">
-              <p class="pl-4 font-bold italic">
-                {{ departamento.data.attributes.updated_at }}
+              <p class="pl-4 font-bold uppercase">
+                {{ requisito.data.attributes.created_at }}
               </p>
             </td>
-
-            <td class="border-t w-px">
-              <router-link
-                :to="
-                  '/departamentos/' +
-                    departamento.data.departamento_id +
-                    '/edit'
-                "
-                class="flex items-center p-4"
-              >
-                <icon
-                  name="cheveron-right"
-                  class="block w-6 h-6 fill-gray-400"
-                />
-              </router-link>
-            </td>
-          </tr>
-          <tr v-if="departamentos.data.length === 0">
-            <td class="border-t px-6 py-4" colspan="4">
-              No se encontraron departamentos.
+            <td class="border-t">
+              <p class="pl-4 font-bold uppercase">
+                {{ requisito.data.attributes.updated_at }}
+              </p>
             </td>
           </tr>
         </table>
       </div>
-      <div class="w-full mt-4">
-        <Pagination
-          :pagination="pagination"
-          @paginate="loadDepartamentos"
-          :offset="4"
-        />
-      </div>
     </div>
   </div>
 </template>
+
 <script>
 import Spinner from "../../components/Spinner";
-import Pagination from "../../components/Pagination";
-import Icon from "@/Shared/Icon";
 import SearchFilter from "@/Shared/SearchFilter";
 import mapValues from "lodash/mapValues";
 import pickBy from "lodash/pickBy";
-// import throttle from "lodash/throttle";
 import debounce from "lodash/debounce";
 import axios from "axios";
-
+// import Icon from "@/Shared/Icon";
 export default {
+  name: "Requisitos",
   components: {
     Spinner,
-    Icon,
-    SearchFilter,
-    Pagination
+    // Icon,
+    SearchFilter
+    // Pagination
   },
   data() {
     return {
-      title: "Departamentos",
       pagination: {},
       url: "",
       loading: true,
       query: null,
-      departamentos: [],
+      tramites: [],
       contacts: Object,
       filters: Object,
       form: {
@@ -131,21 +102,18 @@ export default {
       deep: true
     }
   },
-  created() {
-    this.loadDepartamentos();
-  },
   methods: {
-    loadDepartamentos() {
+    loadRequisitos() {
       let _this = this;
       _this.loading = true;
       let current_page = _this.pagination.current_page;
       let pageNum = current_page ? current_page : 1;
       axios
-        .get(`/departamentos?page=${pageNum}`)
+        .get(`/requisitos?page=${pageNum}`)
         .then(res => {
-          this.departamentos = res.data;
-          this.loading = false;
-          _this.consultas = res.data.consultas;
+          _this.requisitos = res.data;
+          _this.loading = false;
+          // _this.consultas = res.data.consultas;
           _this.pagination = res.data.pagination;
           _this.url = res.data.next_page_url;
         })
@@ -158,15 +126,20 @@ export default {
       console.log(query);
       let _this = this;
       axios
-        // .get(`/departamentos/?q=${query.search}`)
-        .get("/departamentos", {
+        // .get(`/tramites/?q=${query.search}`)
+        .get("/requisitos", {
           params: query
         })
         .then(res => {
-          _this.departamentos = res.data;
+          _this.tramites = res.data;
         })
         .catch(err => console.log(err));
     }
+  },
+  created() {
+    this.loadRequisitos();
   }
 };
 </script>
+
+<style lang="scss" scoped></style>

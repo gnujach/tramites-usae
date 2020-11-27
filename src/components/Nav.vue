@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 <template>
-  <div class="bg-white h-12 p-2 flex items-center border-b border-gray-400 shadow-sm h-screen">
+  <div
+    class="bg-white h-12 p-2 flex items-center border-b border-gray-400 shadow-sm h-screen"
+  >
     <div class="w-1/3 sm:w-full">
       <div class="flex">
         <router-link to="/">
@@ -8,13 +10,7 @@
         </router-link>
         <div class="ml-2 relative">
           <div class="absolute text-gray-700">
-            <svg viewBox="0 0 24 24" class="fill-current w-5 h-5 mt-2 ml-2">
-              <path
-                fill-rule="evenodd"
-                d="M20.2 18.1l-1.4 1.3-5.5-5.2 1.4-1.3 5.5 5.2zM7.5 12c-2.7 0-4.9-2.1-4.9-4.6s2.2-4.6 4.9-4.6 4.9 2.1 4.9 4.6S10.2 12 7.5 12zM7.5.8C3.7.8.7 3.7.7 7.3s3.1 6.5 6.8 6.5c3.8 0 6.8-2.9 6.8-6.5S11.3.8 7.5.8z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <icon name="search" />
           </div>
           <input
             type="text"
@@ -26,14 +22,25 @@
       </div>
     </div>
     <div class="w-1/3 flex justify-center items-center h-12 sm:w-full">
-      <router-link to="/about" class="px-6 border-b-2 border-blue-500 h-full flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-5 h-5">
+      <router-link
+        to="/about"
+        class="px-6 border-b-2 border-blue-500 h-full flex items-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="fill-current w-5 h-5"
+        >
           <path
             d="M22.6 11l-9.9-9c-.4-.4-1.1-.4-1.5 0l-9.9 9c-.3.3-.5.8-.3 1.2.2.5.6.8 1.1.8h1.6v9c0 .4.3.6.6.6h5.4c.4 0 .6-.3.6-.6v-5.5h3.2V22c0 .4.3.6.6.6h5.4c.4 0 .6-.3.6-.6v-9h1.6c.5 0 .9-.3 1.1-.7.3-.5.2-1-.2-1.3zm-2.5-8h-4.3l5 4.5V3.6c0-.3-.3-.6-.7-.6z"
           />
         </svg>
       </router-link>
-      <router-link to="/login" v-if="isLogged" class="px-6 h-full flex items-center">
+      <router-link
+        to="/login"
+        v-if="isLogged"
+        class="px-6 h-full flex items-center"
+      >
         <ShowPictureProfile />
       </router-link>
     </div>
@@ -43,14 +50,21 @@
           <div
             class="text-gray-700 group-hover:text-indigo-600 focus:text-indigo-600 mr-1 whitespace-no-wrap"
           >
-            <icon name="config" class="w-4 h-4 mr-2 fill-gray-800 hover:fill-white" />
+            <icon
+              name="config"
+              class="w-4 h-4 mr-2 fill-gray-800 hover:fill-white"
+            />
           </div>
         </div>
-        <div slot="dropdown" class="mt-2 py-2 shadow-xl bg-white rounded text-sm">
+        <div
+          slot="dropdown"
+          class="mt-2 py-2 shadow-xl bg-white rounded text-sm"
+        >
           <router-link
             class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
             to="/user/profile"
-          >Mi Perfil</router-link>
+            >Mi Perfil</router-link
+          >
           <router-link
             class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
             to="/user/profile"
@@ -58,7 +72,9 @@
           <button
             class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
             @click="logout"
-          >Logout</button>
+          >
+            Logout
+          </button>
         </div>
       </dropdown>
     </div>
@@ -73,18 +89,18 @@ import ShowPictureProfile from "./ShowPictureProfile";
 export default {
   name: "Nav",
   computed: {
-    ...mapGetters(["isLogged", "user"])
+    ...mapGetters(["isLogged", "user"]),
   },
   components: {
     Icon,
     Dropdown,
-    ShowPictureProfile
+    ShowPictureProfile,
   },
   methods: {
     logout() {
       // console.log(this.user.data.user_id);
       this.$store.dispatch("logout", { id: this.user.data.user_id });
-    }
-  }
+    },
+  },
 };
 </script>

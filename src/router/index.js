@@ -60,6 +60,62 @@ const routes = [
       ),
   },
   {
+    path: "/tramites/add",
+    name: "AddTramite",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(/* webpackChunkName: "about" */ "../views/Tramites/AddTramite"),
+  },
+  {
+    path: "/tramites",
+    name: "Tramites",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(/* webpackChunkName: "about" */ "../views/Tramites/Tramites.vue"),
+  },
+  {
+    path: "/requisitos",
+    name: "Requisitos",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Requisitos/Requisitos.vue"
+      ),
+  },
+  {
+    path: "/requisitos/Add",
+    name: "AddRequisitos",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Requisitos/AddRequisito.vue"
+      ),
+  },
+  {
+    path: "/requisitos/AddReqtoTramite/:id",
+    name: "AddReqtoTramite",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignore
+      import(
+        /* webpackChunkName: "about" */ "../views/Requisitos/AddRequisitoToTramite.vue"
+      ),
+  },
+  {
     path: "/me",
     name: "Me",
     meta: {
@@ -109,6 +165,18 @@ const routes = [
     component: () =>
       // @ts-ignorP
       import(/* webpackChunkName: "about" */ "../views/user/Profile"),
+  },
+  {
+    path: "/tramites/addtasktotramite/:id",
+    name: "addtasktotramite",
+    meta: {
+      auth: true,
+    },
+    component: () =>
+      // @ts-ignorP
+      import(
+        /* webpackChunkName: "about" */ "../views/Tramites/AddTaskToTramite"
+      ),
   },
 ];
 
