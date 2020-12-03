@@ -167,7 +167,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/user/Profile"),
   },
   {
-    path: "/tramites/addtasktotramite/:id",
+    path: "/tramites/:id/addtasktotramite",
     name: "addtasktotramite",
     meta: {
       auth: true,

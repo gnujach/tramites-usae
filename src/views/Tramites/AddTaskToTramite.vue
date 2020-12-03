@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="flex w-full justify-center items-center">
-        <form class="w-full flex justify-center">
+        <form class="w-full flex justify-center" @submit.prevent="addTask">
           <label class="text-xl font-bold ml-8 mr-4">Tarea </label>
           <div class="ml-2 relative w-1/2">
             <div class="absolute text-gray-700">
@@ -38,6 +38,8 @@
             </div>
             <input
               type="text"
+              v-model.trim="nameTask"
+              maxlength="128"
               class="pl-8 p-1 rounded-full border-orange-500 border w-full text-lg appearance-none focus:outline-none bg-white focus: border-orange-600"
               placeholder="Tarea"
             />
@@ -53,83 +55,20 @@
         class="flex flex-1 justify-end items-center w-3/3 items-center justify-center bg-white m-8 border border-orange-500 rounded"
       >
         <ul class="w-full">
-          <li class="w-full">
+          <li class="w-full" v-for="(tarea, index) in tareas" :key="index">
             <div
-              class="flex flex-row items-start justify-start w-full border-b-2"
+              class="flex flex-row items-start justify-start w-full border-b-2 hover:bg-orange-500"
             >
               <div class="w-2/3 block break-words">
-                <p class="ml-2">1.- Revisar cumplimiento de requisitos</p>
+                <p class="ml-2 pt-4 font-semibold" @click="editTask(index)">
+                  {{ tarea.nombre }}
+                </p>
               </div>
               <div class="flex justify-end items-end w-1/3">
-                <button class="bg-white rounded m-4">
-                  <icon
-                    name="minus"
-                    class="w-4 h-4 mr-2 space-y-2 space-x-2 fill-white group-hover:fill-white"
-                  />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="w-full">
-            <div
-              class="flex flex-row items-start justify-start w-full border-b-2"
-            >
-              <div class="w-2/3 block break-words">
-                <p class="ml-2">2.- Buscar usuario en plataforma</p>
-              </div>
-              <div class="flex justify-end items-end w-1/3">
-                <button class="bg-white rounded m-4">
-                  <icon
-                    name="minus"
-                    class="w-4 h-4 mr-2 space-y-2 space-x-2 fill-white group-hover:fill-white"
-                  />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="w-full">
-            <div
-              class="flex flex-row items-start justify-start w-full border-b-2"
-            >
-              <div class="w-2/3 block break-words">
-                <p class="ml-2">3.- Cambiar contraseña en plataforma</p>
-              </div>
-              <div class="flex justify-end items-end w-1/3">
-                <button class="bg-white rounded m-4">
-                  <icon
-                    name="minus"
-                    class="w-4 h-4 mr-2 space-y-2 space-x-2 fill-white group-hover:fill-white"
-                  />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="w-full">
-            <div
-              class="flex flex-row items-start justify-start w-full border-b-2"
-            >
-              <div class="w-2/3 block break-words">
-                <p class="ml-2">4.- Generar reporte</p>
-              </div>
-              <div class="flex justify-end items-end w-1/3">
-                <button class="bg-white rounded m-4">
-                  <icon
-                    name="minus"
-                    class="w-4 h-4 mr-2 space-y-2 space-x-2 fill-white group-hover:fill-white"
-                  />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="w-full">
-            <div
-              class="flex flex-row items-start justify-start w-full border-b-2"
-            >
-              <div class="w-2/3 block break-words">
-                <p class="ml-2">5.- Enviar reporte a usuario</p>
-              </div>
-              <div class="flex justify-end items-end w-1/3">
-                <button class="bg-white rounded m-4">
+                <button
+                  class="bg-transparent rounded m-4"
+                  @click="deleteTask(index)"
+                >
                   <icon
                     name="minus"
                     class="w-4 h-4 mr-2 space-y-2 space-x-2 fill-white group-hover:fill-white"
@@ -148,7 +87,9 @@
 import axios from "axios";
 import Spinner from "../../components/Spinner";
 import Icon from "@/Shared/Icon";
+
 export default {
+  name: "TaskForTramite",
   components: {
     Spinner,
     Icon,
@@ -162,9 +103,53 @@ export default {
         departamento: null,
         usuario: null,
       },
+      tarea: {},
+      tareas: [],
+      task: null,
+      nameTask: "",
+      itemFlotante: -1,
     };
   },
+  // computed: {
+  //   taskTemporal() {
+  //     let _this = this;
+  //     _this.task.id = 3;
+  //     _this.task.nombre = "Nombre de tarea";
+  //     return _this.task;
+  //   },
+  // },
   methods: {
+    editTask(param) {
+      let _this = this;
+      _this.nameTask = _this.tareas[param].nombre;
+      _this.itemFlotante = param;
+    },
+    deleteTask(param) {
+      let _this = this;
+      _this.tareas.splice(param, 1);
+    },
+    addTask() {
+      let _this = this;
+      if (_this.nameTask.length <= 5 || _this.nameTask === null) {
+        alert("Logitud no valida");
+        return;
+      }
+      if (_this.itemFlotante === -1) {
+        _this.task = {
+          id: _this.tareas.length + 1,
+          nombre: _this.nameTask,
+        };
+        _this.tareas.push(_this.task);
+      } else {
+        _this.task = {
+          id: _this.tareas[_this.itemFlotante].id,
+          nombre: _this.nameTask,
+        };
+        _this.tareas[_this.itemFlotante] = _this.task;
+        _this.itemFlotante = -1;
+      }
+      _this.nameTask = null;
+    },
     getTramite() {
       const _this = this;
       _this.loading = true;
@@ -183,11 +168,18 @@ export default {
           _this.loading = false;
         });
     },
-    addTarea() {
-      console.log("Add Tarea");
-    },
   },
   created() {
+    this.tarea = {
+      id: 1,
+      nombre: "Mandar correo",
+    };
+    this.tareas.push(this.tarea);
+    this.tarea = {
+      id: 2,
+      nombre: "Tarea dos",
+    };
+    this.tareas.push(this.tarea);
     this.getTramite();
   },
 };

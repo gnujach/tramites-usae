@@ -72,7 +72,9 @@
             </td>
             <td class="border-t w-px text-center">
               <router-link
-                :to="'/tramites/' + tramite.data.tramite_id + '/edit'"
+                :to="
+                  '/tramites/' + tramite.data.tramite_id + '/addtasktotramite'
+                "
                 class="flex justify-center p-4"
               >
                 <icon name="config" class="block w-6 h-6 fill-gray-400" />

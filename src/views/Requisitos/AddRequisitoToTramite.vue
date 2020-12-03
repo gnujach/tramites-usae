@@ -48,7 +48,12 @@
               </div>
             </draggable>
           </div>
-          <div class="m-12"><p>--</p></div>
+          <div class="m-12">
+            <icon
+              name="switch-horizontal"
+              class="w-8 h-8 mr-2 space-y-2 space-x-2 fill-white group-hover:fill-white"
+            />
+          </div>
           <div class="m-12">
             <draggable
               v-model="requisitos_tramite"
@@ -87,6 +92,7 @@
 import draggable from "vuedraggable";
 import axios from "axios";
 import Spinner from "../../components/Spinner";
+import Icon from "@/Shared/Icon";
 // import merge from "lodash/merge";
 // import map from "lodash/map";
 import _ from "lodash";
@@ -94,6 +100,7 @@ export default {
   components: {
     draggable,
     Spinner,
+    Icon,
   },
   data() {
     return {
