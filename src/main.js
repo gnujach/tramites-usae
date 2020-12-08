@@ -6,10 +6,12 @@ import axios from "axios";
 import "./assets/tailwind.css";
 import PortalVue from "portal-vue";
 import VueTailwind from "vue-tailwind";
+import Vuelidate from "vuelidate";
 
 Vue.config.productionTip = false;
 Vue.use(VueTailwind);
 Vue.use(PortalVue);
+Vue.use(Vuelidate);
 new Vue({
   router,
   store,
