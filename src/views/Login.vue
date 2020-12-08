@@ -52,7 +52,7 @@
               </div>
             </router-link>
             <a
-              href=http://localhost:8000/login/azure
+              href=https://api.open-link.net/login/azure
               class="rounded w-full py-2 px-3 text-blue-800 text-left bg-gray-300 uppercase font-bold"
             >
               Correo Institucional
@@ -70,26 +70,26 @@ export default {
   data() {
     return {
       email: null,
-      password: null
+      password: null,
     };
   },
   components: {
-    Logo
+    Logo,
   },
   methods: {
     login() {
       this.$store
         .dispatch("login", {
           email: this.email,
-          password: this.password
+          password: this.password,
         })
         .then(() => {
           this.$router.push({ name: "About" });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   created() {
     const userInfo = localStorage.getItem("user");
@@ -100,7 +100,7 @@ export default {
       this.$store.commit("setUserData", userData);
       this.$router.push({ name: "About" });
     }
-  }
+  },
 };
 </script>
 
